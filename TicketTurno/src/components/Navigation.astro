@@ -1,62 +1,51 @@
 ---
-
+import { SignIn, SignOut } from "auth-astro/components";
+import { getSession } from "auth-astro/server";
+const session = await getSession(Astro.request);
 ---
 
-<div id="header">
-  <div class="logo">
-    <a href="#">Tiket-Turno</a>
+<nav class="nav-links w-5/5 top-20 left-12 bg-red-300 m-0">
+  <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
+    <div class="text-sm">
+      <a
+        href="#responsive-header"
+        class="block mt-4 text-teal-200 hover:text-white mr-4"
+      >
+        Docs
+      </a>
+      <a
+        href="#responsive-header"
+        class="block mt-4 text-teal-200 hover:text-white mr-4"
+      >
+        Examples
+      </a>
+      <a href="#" class="block mt-4 text-teal-200 hover:text-white"> Blog </a>
+
+      {
+        session ? (
+          <>
+            <SignOut>
+              <a
+                href="#"
+                class="px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4"
+              >
+                Cerra sesion
+              </a>
+            </SignOut>
+          </>
+        ) : (
+          <>
+            <SignIn provider="google">
+              <a
+                href="#"
+                class="px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4"
+              >
+                Administrador
+              </a>
+            </SignIn>
+          </>
+        )
+      }
+    </div>
   </div>
-  <nav>
-    <ul>
-      <li>
-        <a href="">Home</a>
-      </li>
-      <li>
-        <a href="">About</a>
-        <ul class="mega-dropdown">
-          <li class="row">
-            <ul class="mega-col">
-              <li><a href="#">About</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
-            <ul class="mega-col">
-              <li><a href="#">Help</a></li>
-              <li><a href="#">Pricing</a></li>
-              <li><a href="#">Team</a></li>
-              <li><a href="#">Services</a></li>
-            </ul>
-            <ul class="mega-col">
-              <li><a href="#">Coming Soon</a></li>
-              <li><a href="#">404 Error</a></li>
-              <li><a href="#">Search</a></li>
-              <li><a href="#">Author Page</a></li>
-            </ul>
-            <ul class="mega-col">
-              <li><a href="#">Full Width</a></li>
-              <li><a href="#">Right Column</a></li>
-              <li><a href="#">Left Column</a></li>
-              <li><a href="#">Maintenance</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a href="">Contact</a>
-        <ul>
-          <li><a href="#">About Version</a></li>
-          <li><a href="#">About Version</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="">Portfolio</a>
-      </li>
-      <li>
-        <a href="">Team</a>
-      </li>
-    </ul>
-  </nav>
-</div>
+</nav>

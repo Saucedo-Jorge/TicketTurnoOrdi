@@ -670,6 +670,7 @@ export default {
       max: 'max-content',
       fit: 'fit-content',
       prose: '65ch',
+      mprose: '80ch',
       ...breakpoints(theme('screens')),
     }),
     minHeight: ({ theme }) => ({
@@ -1018,6 +1019,7 @@ export default {
       '2/5': '40%',
       '3/5': '60%',
       '4/5': '80%',
+      '5/5': '100%',
       '1/6': '16.666667%',
       '2/6': '33.333333%',
       '3/6': '50%',

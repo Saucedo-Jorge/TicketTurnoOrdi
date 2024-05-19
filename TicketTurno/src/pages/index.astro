@@ -1,5 +1,4 @@
 ---
-import { SignIn, SignOut } from "auth-astro/components";
 import { getSession } from "auth-astro/server";
 import Greeting from "../components/Greeting";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -10,18 +9,9 @@ const session = await getSession(Astro.request);
 <BaseLayout pageTitle="Página de inicio">
   <h1>Astro</h1>
 
-  {
-    session ? (
-      <>
-        <p>Hola, {session.user?.name}</p>
-        <SignOut>Cerrar sesion</SignOut>
-      </>
-    ) : (
-      <>
-        <SignIn provider="google">Iniciar sesion</SignIn>
-      </>
-    )
-  }
-
-  <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+  <Greeting
+    client:load
+    messages={["Hej", "Hallo", "Hola", "Habari"]}
+    session={session}
+  />
 </BaseLayout>
