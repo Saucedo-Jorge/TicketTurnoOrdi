@@ -1,7 +1,4 @@
-import { reference } from 'astro:content';
-import { defineDb, defineTable, column } from 'astro:db';
-import { isTypeElement } from 'typescript';
-
+ import { defineDb, defineTable, column } from 'astro:db';
 
 const municipio = defineTable({
   columns: {
@@ -40,8 +37,8 @@ const cita = defineTable({
 
 const detalleCita = defineTable({
   columns:{
-    idcita: column.number({primaryKey: true, references:()=> cita.columns.id}),
-    curp: column.text({primaryKey: true, references:()=> alumno.columns.curp}),
+    idcita: column.number({references:()=> cita.columns.id}),
+    curpa: column.text({references:()=> alumno.columns.curp}),
     numTurno: column.number(),
     asuntoTratar: column.text(),
   }
