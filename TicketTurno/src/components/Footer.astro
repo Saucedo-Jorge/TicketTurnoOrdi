@@ -2,11 +2,11 @@
 const today = new Date();
 ---
 
-<footer>
-  &copy; {today.getFullYear()} Your name here. All rights reserved.
+<footer class="pt-8 pr-4 pb-24 pl-4 text-center">
+  &copy; {today.getFullYear()} Ticket-Turno. All rights reserved.
   <div class="social-links">
-    <a href="https://github.com/withastro/astro" target="_blank">
-      <span class="sr-only">Go to Astro's GitHub repo</span>
+    <a href="https://github.com/Saucedo-Jorge/TicketTurnoOrdi" target="_blank">
+      <span class="sr-only">Go to GitHub repo</span>
       <svg
         viewBox="0 0 16 16"
         aria-hidden="true"
@@ -23,10 +23,9 @@ const today = new Date();
 </footer>
 <style>
   footer {
-    padding: 2em 1em 6em 1em;
+    flex-shrink: 0;
     background: linear-gradient(var(--gray-gradient)) no-repeat;
     color: rgb(var(--gray));
-    text-align: center;
   }
   .social-links {
     display: flex;

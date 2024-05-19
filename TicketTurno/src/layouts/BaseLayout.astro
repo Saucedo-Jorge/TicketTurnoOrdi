@@ -7,7 +7,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 ---
 
-<html class="bg-green-600" lang="en">
+<html class="bg-green-200" lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -15,10 +15,8 @@ import Header from "../components/Header.astro";
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
-  <body class="m-0 w-5/5 max-w-mprose p-4 leading-normal">
+  <body class="m-0 w-5/5 p-4 leading-normal">
     <Header />
-
-    <h1>{pageTitle}</h1>
     <slot />
     <Footer />
 

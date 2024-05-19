@@ -2,7 +2,7 @@
 export default {
   content: ['./src/**/*.{astro,js,jsx,ts,tsx,vue,svelte}'],
   presets: [],
-  darkMode: 'media', // or 'class'
+  darkMode: 'class', // or 'class'
   theme: {
     accentColor: ({ theme }) => ({
       ...theme('colors'),
@@ -1062,5 +1062,9 @@ export default {
     },
   },
   plugins: [],
+
+
+
+
 }
 

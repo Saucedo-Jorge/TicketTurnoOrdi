@@ -20,9 +20,6 @@ export default function Greeting({messages, session}) {
         </>
       )
       }
-      <button onClick={() => setGreeting(randomMessage())}>
-        Nuevo saludo
-      </button>
     </div>
   );
 }

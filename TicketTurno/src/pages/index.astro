@@ -7,11 +7,11 @@ const session = await getSession(Astro.request);
 ---
 
 <BaseLayout pageTitle="Página de inicio">
-  <h1>Astro</h1>
-
-  <Greeting
-    client:load
-    messages={["Hej", "Hallo", "Hola", "Habari"]}
-    session={session}
-  />
+  <nav class="m-2 p-4">
+    <Greeting
+      client:load
+      messages={["Hej", "Hallo", "Hola", "Habari"]}
+      session={session}
+    />
+  </nav>
 </BaseLayout>
