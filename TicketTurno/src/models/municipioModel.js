@@ -1,21 +1,10 @@
+// src/models/municipioModel.js
 import { db, municipio } from "astro:db";
 
-export async function getAllMunicipios() {
+export const getAllMunicipios = async () => {
   return await db.select().from(municipio);
-}
+};
 
-export async function getMunicipioById(id) {
-  return await db.select().from(municipio).where("id", id).first();
-}
-
-export async function createMunicipio(id, nombre) {
+export const addMunicipio = async (id, nombre) => {
   return await db.insert(municipio).values({ id, nombre });
-}
-
-export async function updateMunicipio(id, nombre) {
-  return await db.update(municipio).set({ nombre }).where("id", id);
-}
-
-export async function deleteMunicipio(id) {
-  return await db.delete(municipio).where("id", id);
-}
+};

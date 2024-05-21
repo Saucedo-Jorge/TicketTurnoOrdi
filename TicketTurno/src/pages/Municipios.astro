@@ -1,30 +1,23 @@
 ---
+// src/views/municipioForm.astro
 import "../styles/global.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { handleFormSubmission } from "../controllers/Municipio.js";
-import { fetchMunicipioById } from "../controllers/Municipio.js";
+import {
+  handleFormSubmit,
+  loadMunicipios,
+} from "../controllers/municipioController";
 
 const pageTitle = "Blog";
-let municipios = [];
 
-if (Astro.request.method === "POST") {
-  municipios = await handleFormSubmission(Astro.request);
-} else {
-  municipios = await fetchMunicipioById(Astro.params.id);
-}
+// Manejo de envío de formulario
+await handleFormSubmit(Astro.request);
 
-async function buscarNombreMunicipio() {
-  const idmuni = parseInt(document.getElementById("idmuni").value);
-  if (!isNaN(idmuni)) {
-    const response = await fetch(`/api/municipio/${idmuni}`);
-    const data = await response.json();
-    document.getElementById("nombremuni").value = data.nombre || "";
-  }
-}
+// Cargar municipios
+const municipios = await loadMunicipios();
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <form class="POST grid" method="POST">
+  <form method="POST" class="POST grid">
     <div class="bg-green-500 shadow rounded-lg my-10 p-4">
       <div class="grid lg:grid-cols-2 gap-6">
         <div
@@ -45,7 +38,6 @@ async function buscarNombreMunicipio() {
               tabindex="0"
               type="number"
               class="py-1 px-1 text-gray-900 outline-none block h-full w-full"
-              onblur="buscarNombreMunicipio()"
             />
           </p>
         </div>
@@ -73,49 +65,18 @@ async function buscarNombreMunicipio() {
         <div class="border-t mt-6 pt-3">
           <button
             type="submit"
-            name="action"
-            value="create"
             class="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300"
           >
             Guardar
-          </button>
-          <button
-            type="submit"
-            name="action"
-            value="update"
-            class="rounded text-gray-100 px-3 py-1 bg-yellow-500 hover:shadow-inner hover:bg-yellow-700 transition-all duration-300"
-          >
-            Modificar
-          </button>
-          <button
-            type="submit"
-            name="action"
-            value="delete"
-            class="rounded text-gray-100 px-3 py-1 bg-red-500 hover:shadow-inner hover:bg-red-700 transition-all duration-300"
-          >
-            Eliminar
           </button>
         </div>
       </div>
     </div>
   </form>
-  <ul>
-    {
-      municipios.map((muni) => (
-        <li key={muni.id}>
-          {muni.id}: {muni.nombre}
-        </li>
-      ))
-    }
-  </ul>
-  <script>
-    async function buscarNombreMunicipio() {
-      const idmuni = parseInt(document.getElementById("idmuni").value);
-      if (!isNaN(idmuni)) {
-        const response = await fetch(`/api/municipio/${idmuni}`);
-        const data = await response.json();
-        document.getElementById("nombremuni").value = data.nombre || "";
-      }
-    }
-  </script>
+  <div class="mt-10">
+    <h2 class="text-xl mb-4">Lista de Municipios</h2>
+    <ul>
+      {municipios.map((municipio) => <li>{municipio.nombre}</li>)}
+    </ul>
+  </div>
 </BaseLayout>
