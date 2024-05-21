@@ -8,12 +8,31 @@ import HeaderLink from "./HeaderLink.astro";
 
 <nav class="nav-links">
   <h2><a href="/">Ticket-Turno</a></h2>
-  <div class="internal-links">
-    <HeaderLink href="/">Home</HeaderLink>
-    <HeaderLink href="/RegistroCita">Registrar Cita</HeaderLink>
-    <HeaderLink href="ConsultaCita">Consultar Cita</HeaderLink>
-    <HeaderLink href="/about">About</HeaderLink>
-  </div>
+
+  {
+    session ? (
+      <>
+        <div class="internal-links">
+          <HeaderLink href="/">Home</HeaderLink>
+          <HeaderLink href="/RegistroCita">Registrar Cita</HeaderLink>
+          <HeaderLink href="ConsultaCita">Consultar Cita</HeaderLink>
+          <HeaderLink href="/Municipios">Municipios</HeaderLink>
+          <HeaderLink href="/Alumnos">Alumnos</HeaderLink>
+          <HeaderLink href="/about">About</HeaderLink>
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="internal-links">
+          <HeaderLink href="/">Home</HeaderLink>
+          <HeaderLink href="/RegistroCita">Registrar Cita</HeaderLink>
+          <HeaderLink href="ConsultaCita">Consultar Cita</HeaderLink>
+          <HeaderLink href="/about">About</HeaderLink>
+        </div>
+      </>
+    )
+  }
+
   <div>
     {
       session ? (

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/styleTable.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>TRAMITES</h1>
+        <table>
+            <thead id="fila">
+                <tr>
+                    <td>Turno</td>
+                    <td>Municipio</td>
+                    <td>Asunto</td>
+                    <td>Realizador</td>
+                    <td>Alumno</td>
+                    <td>Telefono</td>
+                    <td>Celular</td>
+                    <td>Correo</td>
+                    <td>Grado</td>
+                    <td><a onclick="javascript:"></a></td> 
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in lista %}
+                <tr>
+                    <td>{{ row["NumeroTurno"] }}</td>
+                    <td>{{ row["Municipio"] }}</td>
+                    <td>{{ row["Asunto"] }}</td>
+                    <td>{{ row["NombreRealizador"] }}</td>
+                    <td>{{ row["Nombre"] }} {{ row["Paterno"] }} {{ row["materno"] }}</td>
+                    <td>{{ row["Telefono"] }}</td>
+                    <td>{{ row["Celular"] }}</td>
+                    <td>{{ row["Correo"] }}</td>
+                    <td>{{ row["Grado"] }}</td>
+                    <td class="button"><form method="POST" action="/tramiteResuelto"><input type="hidden" name="NumeroTurno" value="{{ row['NumeroTurno'] }}"><input type="hidden" name="Municipio" value="{{ row['MunicipioID'] }}"><input type="submit" value="resutlo"></form></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

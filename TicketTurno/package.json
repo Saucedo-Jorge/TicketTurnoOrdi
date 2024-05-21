@@ -20,6 +20,8 @@
     "astro": "^4.8.3",
     "auth-astro": "^4.1.1",
     "autoprefixer": "^10.4.19",
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.9.7",
     "next-auth": "^4.24.7",
     "passport": "^0.7.0",
     "passport-azure-ad": "^4.3.5",

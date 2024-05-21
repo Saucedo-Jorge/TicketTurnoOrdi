@@ -2,7 +2,7 @@
 
 const municipio = defineTable({
   columns: {
-    id: column.number({ primaryKey: true, autoIncrement: true }),
+    id: column.number({ primaryKey: true }),
     nombre: column.text(),
   },
 });

@@ -1,0 +1,121 @@
+---
+import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { handleFormSubmission } from "../controllers/Municipio.js";
+import { fetchMunicipioById } from "../controllers/Municipio.js";
+
+const pageTitle = "Blog";
+let municipios = [];
+
+if (Astro.request.method === "POST") {
+  municipios = await handleFormSubmission(Astro.request);
+} else {
+  municipios = await fetchMunicipioById(Astro.params.id);
+}
+
+async function buscarNombreMunicipio() {
+  const idmuni = parseInt(document.getElementById("idmuni").value);
+  if (!isNaN(idmuni)) {
+    const response = await fetch(`/api/municipio/${idmuni}`);
+    const data = await response.json();
+    document.getElementById("nombremuni").value = data.nombre || "";
+  }
+}
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <form class="POST grid" method="POST">
+    <div class="bg-green-500 shadow rounded-lg my-10 p-4">
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div
+          class="border focus-within:border-green-800 focus-within:text-green-800 transition-all duration-500 relative rounded p-1"
+        >
+          <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+            <p>
+              <label for="idmuni" class="bg-white text-gray-600 px-1"
+                >Id Municipio *</label
+              >
+            </p>
+          </div>
+          <p>
+            <input
+              id="idmuni"
+              name="idmuni"
+              autocomplete="false"
+              tabindex="0"
+              type="number"
+              class="py-1 px-1 text-gray-900 outline-none block h-full w-full"
+              onblur="buscarNombreMunicipio()"
+            />
+          </p>
+        </div>
+        <div
+          class="border focus-within:border-green-800 focus-within:text-green-800 transition-all duration-500 relative rounded p-1"
+        >
+          <div class="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+            <p>
+              <label for="nombremuni" class="bg-white text-gray-600 px-1"
+                >Nombre Municipio *</label
+              >
+            </p>
+          </div>
+          <p>
+            <input
+              id="nombremuni"
+              name="nombremuni"
+              autocomplete="false"
+              tabindex="0"
+              type="text"
+              class="py-1 px-1 outline-none block h-full w-full"
+            />
+          </p>
+        </div>
+        <div class="border-t mt-6 pt-3">
+          <button
+            type="submit"
+            name="action"
+            value="create"
+            class="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner hover:bg-blue-700 transition-all duration-300"
+          >
+            Guardar
+          </button>
+          <button
+            type="submit"
+            name="action"
+            value="update"
+            class="rounded text-gray-100 px-3 py-1 bg-yellow-500 hover:shadow-inner hover:bg-yellow-700 transition-all duration-300"
+          >
+            Modificar
+          </button>
+          <button
+            type="submit"
+            name="action"
+            value="delete"
+            class="rounded text-gray-100 px-3 py-1 bg-red-500 hover:shadow-inner hover:bg-red-700 transition-all duration-300"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <ul>
+    {
+      municipios.map((muni) => (
+        <li key={muni.id}>
+          {muni.id}: {muni.nombre}
+        </li>
+      ))
+    }
+  </ul>
+  <script>
+    async function buscarNombreMunicipio() {
+      const idmuni = parseInt(document.getElementById("idmuni").value);
+      if (!isNaN(idmuni)) {
+        const response = await fetch(`/api/municipio/${idmuni}`);
+        const data = await response.json();
+        document.getElementById("nombremuni").value = data.nombre || "";
+      }
+    }
+  </script>
+</BaseLayout>
