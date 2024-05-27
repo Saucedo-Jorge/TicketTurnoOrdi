@@ -1,10 +1,8 @@
-# Configuración de la base de datos MySQL
-DB_HOST = 'localhost'
-DB_USER = 'root'
-DB_PASSWORD = '1234'
-DB_NAME = 'ticket'
+import os
 
-# Configuraciones de OAuth
-GOOGLE_CLIENT_ID = 'tu_client_id'
-GOOGLE_CLIENT_SECRET = 'tu_client_secret'
-GOOGLE_REDIRECT_URI = 'http://localhost:5000/google/callback'
+class Config:
+    SECRET_KEY = os.getenv('SECRET_KEY', 'my_secret_key')
+    DB_USER = os.getenv('DB_USER', 'root')
+    DB_PASSWORD = os.getenv('DB_PASSWORD', '1234')
+    DB_HOST = os.getenv('DB_HOST', 'localhost')
+    DB_NAME = os.getenv('DB_NAME', 'ticket')

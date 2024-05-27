@@ -1,23 +1,26 @@
 from flask import Flask
-from flask_mysqldb import MySQL
-from flask_oauthlib.client import OAuth
-from app import app, views, models, controllers
+from flask_login import LoginManager
+from .models.user import User
 
-app = Flask(__name__)
-app.config.from_pyfile('config.py')
-mysql = MySQL(app)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object('config.Config')
 
-oauth = OAuth(app)
-google = oauth.remote_app(
-    'google',
-    consumer_key=app.config.get('GOOGLE_CLIENT_ID'),
-    consumer_secret=app.config.get('GOOGLE_CLIENT_SECRET'),
-    request_token_params={
-        'scope': 'email',
-    },
-    base_url='https://www.googleapis.com/oauth2/v1/',
-    request_token_url=None,
-    access_token_method='POST',
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-)
+    # Inicializar Flask-Login
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+
+    from .controllers.auth_controller import auth as auth_blueprint
+    from .controllers.appointment_controller import bp as appointment_blueprint
+    from .views.views import bp as views_blueprint
+
+    app.register_blueprint(auth_blueprint)
+    app.register_blueprint(appointment_blueprint)
+    app.register_blueprint(views_blueprint)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.get_by_id(user_id)
+
+    return app
