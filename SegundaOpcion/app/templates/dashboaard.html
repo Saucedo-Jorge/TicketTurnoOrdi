@@ -1,23 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Dashboard</title>
-  </head>
-  <body>
-    <h2>Dashboard</h2>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-    <div id="appointments"></div>
-    <script>
-      fetch("/appointments")
-        .then((response) => response.json())
-        .then((data) => {
-          let container = document.getElementById("appointments");
-          data.forEach((appt) => {
-            let div = document.createElement("div");
-            div.textContent = `Alumno ID: ${appt.alumno_id}, Status: ${appt.status}`;
-            container.appendChild(div);
-          });
-        });
-    </script>
-  </body>
-</html>
+{% extends "base.html" %} {% block content %}
+<h2>Dashboard</h2>
+<p>Welcome, {{ user.username }}!</p>
+<a href="{{ url_for('appointment.create_appointment') }}">Create Appointment</a>
+<a href="{{ url_for('appointment.list_appointments') }}">View Appointments</a>
+{% endblock %}

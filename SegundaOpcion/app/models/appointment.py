@@ -1,38 +1,32 @@
 from .db import db
 
 class Appointment:
-    def __init__(self, municipality, number, status='pending'):
-        self.municipality = municipality
-        self.number = number
-        self.status = status
+    def __init__(self, idappointments, user_id, date, time, description):
+        self.idappointments = idappointments
+        self.user_id = user_id
+        self.date = date
+        self.time = time
+        self.description = description
 
     @staticmethod
-    def create(municipality):
+    def create(user_id, date, time, description):
         cursor = db.cursor()
-        cursor.execute("SELECT COUNT(*) FROM appointments WHERE municipality = %s", (municipality,))
-        count = cursor.fetchone()[0] + 1
-        cursor.execute("INSERT INTO appointments (municipality, number, status) VALUES (%s, %s, %s)",
-                       (municipality, count, 'pending'))
+        cursor.execute("INSERT INTO appointments (user_id, date, time, description) VALUES (%s, %s, %s, %s)",
+                       (user_id, date, time, description))
         db.commit()
-        return count
+        cursor.close()
 
     @staticmethod
-    def update_status(appointment_id, status):
-        cursor = db.cursor()
-        cursor.execute("UPDATE appointments SET status = %s WHERE id = %s", (status, appointment_id))
-        db.commit()
+    def get_by_user_id(user_id):
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM appointments WHERE user_id = %s", (user_id,))
+        appointments = cursor.fetchall()
+        cursor.close()
+        return appointments
 
     @staticmethod
     def delete(appointment_id):
         cursor = db.cursor()
-        cursor.execute("DELETE FROM appointments WHERE id = %s", (appointment_id,))
+        cursor.execute("DELETE FROM appointments WHERE idappointments = %s", (appointment_id,))
         db.commit()
-
-    @staticmethod
-    def get_all(status=None):
-        cursor = db.cursor(dictionary=True)
-        if status:
-            cursor.execute("SELECT * FROM appointments WHERE status = %s", (status,))
-        else:
-            cursor.execute("SELECT * FROM appointments")
-        return cursor.fetchall()
+        cursor.close()

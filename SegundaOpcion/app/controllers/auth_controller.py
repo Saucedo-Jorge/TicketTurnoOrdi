@@ -12,7 +12,7 @@ def login():
         user = User.authenticate(username, password)
         if user:
             login_user(user)
-            return redirect(url_for('views.dashboard'))
+            return redirect(url_for('main.dashboard'))
         else:
             flash('Invalid username or password')
     return render_template('login.html')
@@ -29,11 +29,9 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # Verificar si el usuario ya existe
         if User.get_user_by_username(username):
             flash('El nombre de usuario ya está en uso.')
         else:
-            # Crear el nuevo usuario
             User.create(username, password)
             flash('Usuario registrado exitosamente!')
             return redirect(url_for('auth.login'))

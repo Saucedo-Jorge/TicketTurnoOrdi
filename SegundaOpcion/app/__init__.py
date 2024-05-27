@@ -1,26 +1,27 @@
 from flask import Flask
 from flask_login import LoginManager
 from .models.user import User
+from .controllers.auth_controller import auth
+from .controllers.appointment_controller import appointment
+from .views.views import main
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object('config.Config')
+app = Flask(__name__)
+app.config.from_object('config.Config')
 
-    # Inicializar Flask-Login
-    login_manager = LoginManager()
-    login_manager.init_app(app)
-    login_manager.login_view = 'auth.login'
+# Configuración de la base de datos
+# db.init_app(app)
 
-    from .controllers.auth_controller import auth as auth_blueprint
-    from .controllers.appointment_controller import bp as appointment_blueprint
-    from .views.views import bp as views_blueprint
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
 
-    app.register_blueprint(auth_blueprint)
-    app.register_blueprint(appointment_blueprint)
-    app.register_blueprint(views_blueprint)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_user_by_id(user_id)
 
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.get_by_id(user_id)
+app.register_blueprint(auth)
+app.register_blueprint(appointment, url_prefix='/appointment')
+app.register_blueprint(main)
 
-    return app
+if __name__ == '__main__':
+    app.run(debug=True)
