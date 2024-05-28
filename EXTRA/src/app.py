@@ -7,6 +7,7 @@ from database import Database
 
 
 # Models:
+from factories import EntityFactory
 from models.ModelUser import ModelUser
 from models.ModelCita import ModelCita
 from models.ModelAlumno import ModelAlumno
@@ -61,9 +62,15 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
 
-@app.route('/registro_cita')
-def registro_cita():
-    return render_template('views/registro_cita.html')
+@app.route('/registro_cita', methods=['POST'])
+def add_cita():
+    quienr = request.form['qr']
+    telefonoqr = request.form['phone']
+    correo = request.form['email']
+    status = request.form['status']
+    cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, status)
+    ModelCita.add(db, cita)
+    return redirect(url_for('registro_cita'))
 
 @app.route('/municipios')
 def municipios():
