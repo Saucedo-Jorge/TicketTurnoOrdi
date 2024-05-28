@@ -52,7 +52,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 
 @app.route('/home')
@@ -65,6 +65,21 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
 
+@app.route('/registro_cita')
+def registro_cita():
+    return render_template('views/registro_cita.html')
+
+@app.route('/municipios')
+def municipios():
+    return render_template('views/municipios.html')
+
+@app.route('/alumnos')
+def alumnos():
+    return render_template('views/alumnos.html')
+
+@app.route('/about')
+def about():
+    return render_template('views/about.html')
 
 def status_401(error):
     return redirect(url_for('login'))
