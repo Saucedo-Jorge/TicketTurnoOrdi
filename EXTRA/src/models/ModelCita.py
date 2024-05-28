@@ -6,12 +6,12 @@ class ModelCita:
     def get_all(self, db):
         try:
             cursor = db.connection.cursor()
-            sql = "SELECT id, fecha, descripcion FROM cita"
+            sql = "SELECT IDCITA, QUIENR, TELEFONOQR, CORREOQR, STATUS FROM citas"
             cursor.execute(sql)
             result = cursor.fetchall()
             citas = []
             for row in result:
-                citas.append(Cita(row[0], row[1], row[2]))
+                citas.append(Cita(row[0], row[1], row[2], row[3], row[4]))
             return citas
         except Exception as ex:
             raise Exception(ex)
@@ -20,18 +20,19 @@ class ModelCita:
     def add(self, db, cita):
         try:
             cursor = db.connection.cursor()
-            sql = """INSERT INTO cita (fecha, descripcion) 
-                     VALUES ('{}', '{}')""".format(cita.fecha, cita.descripcion)
+            sql = """INSERT INTO citas (IDCITA, QUIENR, TELEFONOQR, CORREOQR, STATUS) 
+                     VALUES ('{}', '{}', '{}', '{}', '{}')""".format(
+                        cita.idcita, cita.quienr, cita.telefonoqr, cita.correoqr, cita.status)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def delete(self, db, id):
+    def delete(self, db, idcita):
         try:
             cursor = db.connection.cursor()
-            sql = "DELETE FROM cita WHERE id = {}".format(id)
+            sql = "DELETE FROM citas WHERE IDCITA = '{}'".format(idcita)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
@@ -41,8 +42,9 @@ class ModelCita:
     def update(self, db, cita):
         try:
             cursor = db.connection.cursor()
-            sql = """UPDATE cita SET fecha = '{}', descripcion = '{}' 
-                     WHERE id = {}""".format(cita.fecha, cita.descripcion, cita.id)
+            sql = """UPDATE citas SET QUIENR = '{}', TELEFONOQR = '{}', CORREOQR = '{}', STATUS = '{}' 
+                     WHERE IDCITA = '{}'""".format(
+                        cita.quienr, cita.telefonoqr, cita.correoqr, cita.status, cita.idcita)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:

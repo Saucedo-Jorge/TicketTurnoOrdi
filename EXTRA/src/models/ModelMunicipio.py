@@ -6,7 +6,7 @@ class ModelMunicipio:
     def get_all(self, db):
         try:
             cursor = db.connection.cursor()
-            sql = "SELECT id, nombre FROM municipio"
+            sql = "SELECT codmunicipio, nombremunicipio FROM municipio"
             cursor.execute(sql)
             result = cursor.fetchall()
             municipios = []
@@ -20,18 +20,19 @@ class ModelMunicipio:
     def add(self, db, municipio):
         try:
             cursor = db.connection.cursor()
-            sql = """INSERT INTO municipio (nombre) 
-                     VALUES ('{}')""".format(municipio.nombre)
+            sql = """INSERT INTO municipio (codmunicipio, nombremunicipio) 
+                     VALUES ('{}', '{}')""".format(
+                        municipio.codmunicipio, municipio.nombremunicipio)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def delete(self, db, id):
+    def delete(self, db, codmunicipio):
         try:
             cursor = db.connection.cursor()
-            sql = "DELETE FROM municipio WHERE id = {}".format(id)
+            sql = "DELETE FROM municipio WHERE codmunicipio = '{}'".format(codmunicipio)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
@@ -41,8 +42,9 @@ class ModelMunicipio:
     def update(self, db, municipio):
         try:
             cursor = db.connection.cursor()
-            sql = """UPDATE municipio SET nombre = '{}' 
-                     WHERE id = {}""".format(municipio.nombre, municipio.id)
+            sql = """UPDATE municipio SET nombremunicipio = '{}' 
+                     WHERE codmunicipio = '{}'""".format(
+                        municipio.nombremunicipio, municipio.codmunicipio)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
