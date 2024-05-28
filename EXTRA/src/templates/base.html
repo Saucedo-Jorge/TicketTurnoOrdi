@@ -25,7 +25,7 @@
     {% block customCSS %} {% endblock %}
   </head>
 
-  <body class="m-0 w-5/5 p-4 leading-normal text-center">
+  <body class="degradado-radial m-0 w-5/5 p-4 leading-normal text-center">
     {% if request.endpoint != 'login' %} {% include "header.html" %} {% endif %}
     {% block body %} {% endblock %}
     <script
@@ -59,6 +59,9 @@
       </div>
     </footer>
     <style>
+      .degradado-radial {
+        background: radial-gradient(circle, #7ad650, #448924);
+      }
       footer {
         flex-shrink: 0;
         background: linear-gradient(var(--gray-gradient)) no-repeat;
