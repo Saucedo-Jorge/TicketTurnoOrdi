@@ -38,7 +38,7 @@ def login():
         if logged_user != None:
             if logged_user.password:
                 login_user(logged_user)
-                return redirect(url_for('index'))
+                return redirect(url_for('home'))
             else:
                 flash("Invalid password...")
                 return render_template('auth/login.html')
@@ -72,7 +72,6 @@ def status_401(error):
 
 def status_404(error):
     return "<h1>Página no encontrada</h1>", 404
-
 
 
 if __name__ == '__main__':
