@@ -39,7 +39,6 @@
     </a>
   </div>
 </nav>
-
 <style>
   header {
     margin: 0;
@@ -61,6 +60,11 @@
     align-items: center;
     justify-content: space-between;
   }
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   nav a {
     padding: 1em 0.5em;
     color: var(--black);
@@ -68,6 +72,16 @@
     text-decoration: none;
   }
   nav a.active {
+    text-decoration: none;
+    border-bottom-color: var(--accent);
+  }
+  .internal_links {
+    padding: 1em 0.5em;
+    color: var(--black);
+    border-bottom: 4px solid transparent;
+    text-decoration: none;
+  }
+  .internal_links {
     text-decoration: none;
     border-bottom-color: var(--accent);
   }
