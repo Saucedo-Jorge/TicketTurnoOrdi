@@ -1,0 +1,19 @@
+---
+import { getSession } from "auth-astro/server";
+import Greeting from "../components/Greeting";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { db } from "astro:db";
+
+const pageTitle = "Página de inicio";
+const session = await getSession(Astro.request);
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <nav class="m-2 p-4">
+    <Greeting
+      client:load
+      messages={["Hej", "Hallo", "Hola", "Habari"]}
+      session={session}
+    />
+  </nav>
+</BaseLayout>

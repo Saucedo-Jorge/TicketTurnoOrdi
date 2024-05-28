@@ -1,0 +1,137 @@
+{% extends './base.html' %} {% block title %}Home{% endblock %} {% block
+customCSS %} {% endblock %} {% block body %}
+
+<div class="signupFrm">
+  <form action="" class="form">
+    <h1 class="title">Cita</h1>
+
+    <div class="inputContainer">
+      <input type="text" class="input" placeholder="Quien Realiza" />
+      <label for="" class="label">Parentezco</label>
+    </div>
+
+    <div class="inputContainer">
+      <input
+        class="input"
+        type="tel"
+        id="phone"
+        name="phone"
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        placeholder="123-456-7890"
+      />
+      <label for="" class="label">Telefono</label>
+    </div>
+
+    <div class="inputContainer">
+      <input
+        class="input"
+        type="email"
+        id="email"
+        name="email"
+        placeholder="@"
+      />
+      <label for="" class="label">Correo</label>
+    </div>
+
+    <div class="inputContainer">
+      <input
+        class="input"
+        type="text"
+        id="asuntotratar"
+        name="asuntotratar"
+        placeholder="Asunto a tratar"
+      />
+      <label for="" class="label">Asunto</label>
+    </div>
+
+    {% if current_user.is_authenticated %}
+    <div class="inputContainer">
+      <input
+        class="input"
+        type="radio"
+        id="pendiente"
+        name="status"
+        value="HTML"
+      />
+      <label for="html">Pendiente</label><br />
+      <input
+        class="input"
+        type="radio"
+        id="resuelto"
+        name="status"
+        value="CSS"
+      />
+      <label for="css">Resuleto</label><br />
+    </div>
+
+    {% endif %}
+
+    <input type="submit" class="submitBtn" value="Sign up" />
+  </form>
+</div>
+
+<style>
+  .signupFrm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+  }
+
+  .form {
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: #f1f1f1;
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .inputContainer {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+
+  .input:focus + .label,
+  .input:valid + .label {
+    top: -5px;
+    left: 10px;
+    transform: translateY(0);
+    background: #fff;
+    padding: 0 5px;
+    font-size: 12px;
+  }
+
+  .submitBtn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #19c617;
+    color: #388b12;
+    cursor: pointer;
+  }
+</style>
+{% endblock %}

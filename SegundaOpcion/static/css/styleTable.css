@@ -1,0 +1,58 @@
+table {
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr:nth-child(even) {
+    background-color: #c7c5c5;
+}
+  
+tr:nth-child(odd) {
+    background-color: #e2dfdf;
+}
+
+th, td {
+    font-size: 14px; 
+    font-family: Arial, sans-serif; 
+    color: #333333; 
+
+    padding-left: 10px; 
+    padding-right: 10px; 
+    text-align: center; 
+    border: 1px solid #fffdfd; 
+}
+    
+/* Estilo para la primera fila */
+#fila {
+    font-weight: bold; 
+    background-color: black; 
+    color: white;
+}
+
+
+input[type="submit"]{
+    box-shadow: none;
+    font-size: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: black;
+    padding: 5px 5px;
+    margin: 0 0;
+    font-weight: normal;
+    width: 100px;
+    height: 30px; 
+
+    border: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+    color: white
+}

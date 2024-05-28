@@ -1,0 +1,42 @@
+
+  /* estilos de la barra de navegación*/
+
+
+.expanded {
+  display: unset;
+}
+
+html.dark {
+  background-color: #0d0950;
+  color: #fff;
+}
+
+.dark .nav-links a {
+  color: #fff;
+}
+
+@media screen and (min-width: 1536px) {
+  .nav-links {
+    display: flex;
+  }
+
+}
+@media screen and (min-width: 636px) {
+  .nav-links {
+    margin-left: 5em;
+    display: block;
+    position: static;
+    width: auto;
+    background: none;
+  }
+
+  .nav-links a {
+    display: inline-block;
+    padding: 15px 20px;
+  }
+  
+  .hamburger {
+    display: none;
+  }
+
+}

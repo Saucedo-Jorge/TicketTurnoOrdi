@@ -1,0 +1,221 @@
+*{ 
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: lightgray;
+    font-family: Arial, sans-serif;
+    padding-left: 100px;
+    padding-right: 100px;
+    position: relative;
+}
+
+h1, h2{
+    font-family: sans-serif, Arial, Helvetica;
+    font-size: 150%;
+    color: rgb(18, 18, 19);
+    text-align: center;
+    font-weight: bold;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+label{
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 12px 12px 12px;
+    display: inline-block;
+    float: none;
+    font-size: 20px;
+}
+
+img{
+    width: 200px;
+    height: 133px;
+}
+
+a{
+    float: center;
+}
+
+.container, .container3 {
+    max-width: 100%;
+    padding: 20px;
+    background-color: white;
+    border: 10px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(136, 137, 138, 0.5);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+    position: relative;
+    top: 55px; 
+}
+
+.container2 {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border: 10px;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(136, 137, 138, 0.5);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+    position: relative;
+    top: 55px; 
+}
+
+.container3{
+    margin: 5px auto;
+}
+
+.NúmeroTurno {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 18px;
+    background-color: maroon;
+    color: white;
+    margin: auto;
+}
+
+label {
+    flex: 1;
+    margin-right: 3px;
+    color: navy;
+    margin: auto;
+}
+
+.imagen, #captcha {
+    display: flex;
+    justify-content: center;
+}
+
+#row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+#row input, select {
+    flex: 2;
+    padding: 5px;
+    border: 1px solid navy;
+    border-radius: 5px;
+}
+
+input[type="submit"], button {
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    max-width: 30%;
+    font-size: 20px;
+    background-color: rgb(11, 117, 238);
+    color:rgb(13, 13, 14);
+    padding: 12px 12px;
+    margin: 8px 0;
+    font-weight: bold;
+    width: auto;
+    height: auto; 
+
+    border: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: navy;
+    color: rgb(245, 245, 245);
+}
+
+.boton {
+    border-radius: 10px;
+    max-width: 30%;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: black;
+    border: 1px solid #4CAF50;
+    padding: 12px 12px;
+    margin: 8px auto;
+    width: auto;
+    height: auto; 
+
+    border: none;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+    color: white
+}  
+
+#row2{
+    padding: 10px;
+    display:flex;
+    justify-content: center
+}
+
+#row3{
+    display: flex;
+    justify-content: center;
+    
+    margin: 8px auto;
+    width: 500px;
+    height: 60px;
+    gap: 20px; 
+}
+
+#row4{
+    padding: 10px;
+}
+
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 600px) {
+    label{
+        width: 100%;
+        height: auto; 
+        display: flex;
+        float: left;
+    }
+ 
+    .container, .container2{
+        padding: 10px;
+    }
+ 
+    h1, h2{
+        font-size: 190%;
+        text-align: center;
+    }
+
+    .boton, input[type=submit]{
+        width: auto;
+        height: auto; 
+        margin-top: 0;
+    }
+}
+
+/*<a class="boton" onclick="javascript:"></a>*/

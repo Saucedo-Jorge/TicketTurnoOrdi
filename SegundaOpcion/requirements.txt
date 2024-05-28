@@ -1,0 +1,3 @@
+Flask-OAuthlib
+Flask-OAuthlib
+Flask-MySQLdb
