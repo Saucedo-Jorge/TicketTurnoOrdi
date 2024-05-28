@@ -1,10 +1,12 @@
 from .db import db
 import bcrypt
+from flask_login import UserMixin
 
-class User:
-    def __init__(self, username, password):
+class User(UserMixin):
+    def __init__(self, id, username, password):
+        self.id = id
         self.username = username
-        self.password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        self.password = password
 
     @staticmethod
     def create(username, password):
@@ -17,18 +19,18 @@ class User:
     def authenticate(username, password):
         cursor = db.cursor(dictionary=True)
         cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
-        user = cursor.fetchone()
-        if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
-            return user
+        user_data = cursor.fetchone()
+        if user_data and bcrypt.checkpw(password.encode('utf-8'), user_data['password'].encode('utf-8')):
+            return User(user_data['idusers'], user_data['username'], user_data['password'])
         return None
 
     @classmethod
-    def get_user_by_username(cls, username):  # Agregar cls como primer argumento
+    def get_user_by_username(cls, username):
         cursor = db.cursor(dictionary=True)
         cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
         user_data = cursor.fetchone()
         cursor.close()
         if user_data:
-            return user_data
+            return cls(user_data['idusers'], user_data['username'], user_data['password'])
         else:
             return None
