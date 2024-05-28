@@ -1,27 +1,27 @@
-from .entities.Municipio import Municipio
+from .entities.Alumno import Alumno
 
-class ModelMunicipio:
+class ModelAlumno:
 
     @classmethod
     def get_all(self, db):
         try:
             cursor = db.connection.cursor()
-            sql = "SELECT id, nombre FROM municipio"
+            sql = "SELECT id, nombre, apellido FROM alumno"
             cursor.execute(sql)
             result = cursor.fetchall()
-            municipios = []
+            alumnos = []
             for row in result:
-                municipios.append(Municipio(row[0], row[1]))
-            return municipios
+                alumnos.append(Alumno(row[0], row[1], row[2]))
+            return alumnos
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def add(self, db, municipio):
+    def add(self, db, alumno):
         try:
             cursor = db.connection.cursor()
-            sql = """INSERT INTO municipio (nombre) 
-                     VALUES ('{}')""".format(municipio.nombre)
+            sql = """INSERT INTO alumno (nombre, apellido) 
+                     VALUES ('{}', '{}')""".format(alumno.nombre, alumno.apellido)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
@@ -31,18 +31,18 @@ class ModelMunicipio:
     def delete(self, db, id):
         try:
             cursor = db.connection.cursor()
-            sql = "DELETE FROM municipio WHERE id = {}".format(id)
+            sql = "DELETE FROM alumno WHERE id = {}".format(id)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
-    def update(self, db, municipio):
+    def update(self, db, alumno):
         try:
             cursor = db.connection.cursor()
-            sql = """UPDATE municipio SET nombre = '{}' 
-                     WHERE id = {}""".format(municipio.nombre, municipio.id)
+            sql = """UPDATE alumno SET nombre = '{}', apellido = '{}' 
+                     WHERE id = {}""".format(alumno.nombre, alumno.apellido, alumno.id)
             cursor.execute(sql)
             db.connection.commit()
         except Exception as ex:

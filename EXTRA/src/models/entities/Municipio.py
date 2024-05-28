@@ -1,6 +1,4 @@
-class User():
-
-    def __init__(self, CODMUNICIPIO, NOMBREMUNICIPIO) -> None:
-        self.CODMUNICIPIO = CODMUNICIPIO
-        self.NOMBREMUNICIPIO = NOMBREMUNICIPIO
-        
+class Municipio:
+    def __init__(self, id, nombre):
+        self.id = id
+        self.nombre = nombre

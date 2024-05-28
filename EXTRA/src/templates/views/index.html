@@ -1,14 +1,54 @@
 {% extends './base.html' %} {% block title %}Home{% endblock %} {% block
 customCSS %} {% endblock %} {% block body %}
 
-<div class="container">
-  <h1 class="text-center">Home</h1>
-  <p class="text-center">Welcome to the home page!</p>
+<div class="app">
+  <div class="container">
+    <section className="container">
+      <h1>Hello!</h1>
+      <h2>Bienvenido al registro de citas</h2>
+      <p>
+        En esta pagina web realizaras la cita para tratar cualquier asunto en
+        relacion a la educacion de los estudiantes !
+      </p>
+      <p>
+        Porfavor si no eres administrador no es necesario hacer click en el
+        boton de administrador, gracias por tu comprension.
+      </p>
+    </section>
+  </div>
 </div>
 
 <style>
-  .text-center {
-    text-align: center;
+  .app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 0 20px;
+  }
+
+  .container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .container h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .container p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
 </style>
 {% endblock %}
