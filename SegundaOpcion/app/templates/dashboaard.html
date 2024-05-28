@@ -1,6 +1,0 @@
-{% extends "base.html" %} {% block content %}
-<h2>Dashboard</h2>
-<p>Welcome, {{ user.username }}!</p>
-<a href="{{ url_for('appointment.create_appointment') }}">Create Appointment</a>
-<a href="{{ url_for('appointment.list_appointments') }}">View Appointments</a>
-{% endblock %}
