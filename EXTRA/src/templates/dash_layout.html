@@ -1,0 +1,35 @@
+<!-- templates/dash_layout.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Solicitudes</title>
+    <link rel="stylesheet" href="https://codepen.io/chriddyp/pen/bWLwgP.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard de Solicitudes por Municipio</h1>
+        <div id="dash-app"></div>
+    </div>
+
+    <!-- Scripts de Dash -->
+    <script src="/_dash-component-suites/dash_renderer/bundle.js"></script>
+    <script src="/_dash-component-suites/dash_core_components/dash_core_components.min.js"></script>
+    <script src="/_dash-component-suites/dash_html_components/dash_html_components.min.js"></script>
+    <script src="/_dash-component-suites/dash_renderer/dash_renderer.min.js"></script>
+
+    <script>
+        if (typeof dash_config !== 'undefined') {
+            dash_config.requests_pathname_prefix = '/dash/';
+            dash_config.urls = {
+                '_dash-dependencies': dash_config.requests_pathname_prefix + '_dash-dependencies',
+                '_dash-layout': dash_config.requests_pathname_prefix + '_dash-layout',
+                '_dash-update-component': dash_config.requests_pathname_prefix + '_dash-update-component'
+            };
+            dash_renderer = new DashRenderer();
+        }
+    </script>
+</body>
+</html>
