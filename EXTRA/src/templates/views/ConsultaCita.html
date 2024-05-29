@@ -1,44 +1,44 @@
 {% extends './base.html' %} 
-{% block title %}Registro de Citas{% endblock %} 
+{% block title %}Consulta de Citas{% endblock %} 
 {% block customCSS %} 
 {% endblock %} 
 {% block body %}
 
 <div class="signupFrm">
-  <form action="/registro_cita" method="POST" class="form">
+  <form action="/consulta_cita" method="POST" class="form">
     <h1 class="title">Consulta Cita</h1>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
     <div class="inputContainer">
-      <input name="numeroturno" id="numeroturno" type="number" class="input" placeholder="Ingrese Numero de Turno" required />
+      <input name="numeroturno" id="numeroturno" type="number" class="input" placeholder="Ingrese Numero de Turno" value="{{ data.numeroturno }}" required />
       <label for="" class="label">Numero de Turno</label>
     </div>
 
     <div class="inputContainer">
-      <input class="input" type="text" id="curp" name="curp" required pattern="^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[HM]{1}(AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$" title="Por favor, ingrese una CURP válida." />
+      <input class="input" type="text" id="curp" name="curp" value="{{ data.curp }}" required pattern="^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[HM]{1}(AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$" title="Por favor, ingrese una CURP válida." />
       <label for="" class="label">CURP Alumno</label>
     </div>
 
     <div class="inputContainer">
-      <input class="input" type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+      <input class="input" type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" value="{{ data.phone }}" />
       <label for="" class="label">Telefono</label>
     </div>
 
     <div class="inputContainer">
-      <input class="input" type="email" id="email" name="email" />
+      <input class="input" type="email" id="email" name="email" value="{{ data.email }}" />
       <label for="" class="label">Correo</label>
     </div>
 
     <div class="inputContainer">
-      <input class="input" type="text" id="asuntotratar" name="asuntotratar" />
+      <input class="input" type="text" id="asuntotratar" name="asuntotratar" value="{{ data.asuntotratar }}" />
       <label for="" class="label">Asunto</label>
     </div>
 
     {% if current_user.is_authenticated %}
     <div class="inputContainer">
-      <input class="input" type="radio" id="status" name="status" value="Pendiente" />
+      <input class="input" type="radio" id="status" name="status" value="Pendiente" {% if data.status == 'Pendiente' %}checked{% endif %} />
       <label for="Pendiente">Pendiente</label><br />
-      <input class="input" type="radio" id="status" name="status" value="Resuelto" />
+      <input class="input" type="radio" id="status" name="status" value="Resuelto" {% if data.status == 'Resuelto' %}checked{% endif %} />
       <label for="Resuelto">Resuelto</label><br />
     </div>
     {% endif %}
@@ -56,19 +56,18 @@
     {% endwith %}
 
     <div class="buttonContainer">
-      
       <button type="button" class="submitBtn" onclick="consultarCita()">Consultar</button>
       <button type="button" class="submitBtn" onclick="modificarCita()">Modificar</button>
       {% if current_user.is_authenticated %}
       <button type="button" class="submitBtn" onclick="eliminarCita()">Eliminar</button>
-        {% endif %}
+      {% endif %}
     </div>
   </form>
 </div>
 
 <script>
   function consultarCita() {
-    document.querySelector('form').action = '/consultar_cita';
+    document.querySelector('form').action = '/consulta_cita';
     document.querySelector('form').submit();
   }
 
@@ -84,97 +83,97 @@
 </script>
 
 <style>
-    
-        .signupFrm {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-  
-      .form {
-        display: flex;
-        flex-direction: column;
-          width: 100%;
-          max-width: 400px;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          background: #f1f1f1;
-      }
-  
-      .title {
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: #333333;
-      }
-  
-      .inputContainer {
-        position: relative;
-        margin-bottom: 20px;
-        width: 100%;
-      }
-  
-      .input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-      }
-  
-      .label {
-        position: absolute;
-        top: -10px;
-        left: 10px;
-        background-color: #ffffff;
-        padding: 0 5px;
-        font-size: 14px;
-        color: #333333;
-      }
-  
-      .buttonContainer {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-      }
-  
-      .submitBtn {
-        background-color: #5b8b1b;
-        color: #ffffff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        flex: 1;
-        margin: 0 5px;
-      }
-  
-      .submitBtn:hover {
-        background-color: #32d440;
-      }
-  
-      .alert {
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 10px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-      }
-  
-      .alert-primary {
-        color: #1a8101;
-        background-color: #cce5ff;
-        border-color: #b8daff;
-      }
-  
-      .btn-close {
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: #000;
-      }
-    </style>
+  .signupFrm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: #f1f1f1;
+  }
+
+  .title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
+  }
+
+  .inputContainer {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  .label {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: #ffffff;
+    padding: 0 5px;
+    font-size: 14px;
+    color: #333333;
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .submitBtn {
+    background-color: #5b8b1b;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    margin: 0 5px;
+  }
+
+  .submitBtn:hover {
+    background-color: #32d440;
+  }
+
+  .alert {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+
+  .alert-primary {
+    color: #1a8101;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+  }
+
+  .btn-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #000;
+  }
+</style>
+
 {% endblock %}

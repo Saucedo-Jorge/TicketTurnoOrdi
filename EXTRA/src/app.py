@@ -63,34 +63,57 @@ def home():
 @login_required
 def protected():
     return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
-
-@app.route('/consulta_cita')
+@app.route('/consulta_cita', methods=['POST', 'GET'])
 def consulta_cita():
     if request.method == 'POST':
-        numcita = request.form['numturno']
-        telefonoqr = request.form['phone']
-        correo = request.form['email']
-        statu= request.form['status']if 'status' in request.form and request.form['status'] else None
+        numturno = request.form['numeroturno']
+        curp = request.form['curp']
+
+        d = EntityFactory.create_entity('detallecita', None, curp, numturno, None)
+        data = ModelDetalleCita.get_data(db, d)
         
-        
-        print('ESTO IMPRIME O MANDA EL FORMULARIO CUANDO NO SE SELECCIONA STATUS:  ----->')
-        print(statu)
-        cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, statu)
-        ModelCita.add(db, cita)
-    
-        curp= request.form['curp']
-        asunto= request.form['asuntotratar']
-        idcita= ModelCita.get_id(db)
-        numcita=  ModelDetalleCita.numturn(db, curp)
-        detalle = EntityFactory.create_entity('detallecita', idcita[0], curp, numcita, asunto)
-        ModelDetalleCita.add(db, detalle)
-        
-        flash("Guarde su numero de Turno")
-        flash(f"Turno Asignato: {numcita}")
-        
-        return redirect(url_for('registro_cita'))
+        # Pasar los datos al template
+        return render_template('views/ConsultaCita.html', data=data)
     else:
-        return render_template('views/registro_cita.html')
+        return render_template('views/ConsultaCita.html', data={})
+    
+@app.route('/modificar_cita', methods=['POST'])
+def modificar_cita():
+    if request.method == 'POST':
+        numturno = request.form['numeroturno']
+        curp = request.form['curp']
+        phone = request.form['phone']
+        email = request.form['email']
+        asuntotratar = request.form['asuntotratar']
+        status = request.form.get('status', '')
+
+        d = EntityFactory.create_entity('detallecita', None, curp, numturno, None)
+        d.phone = phone
+        d.email = email
+        d.asuntotratar = asuntotratar
+        d.status = status
+
+        ModelDetalleCita.update_data(db, d)
+        
+        flash('Cita modificada exitosamente', 'success')
+        return redirect(url_for('consulta_cita'))
+    else:
+        return render_template('views/ConsultaCita.html', data={})
+
+@app.route('/eliminar_cita', methods=['POST'])
+def eliminar_cita():
+    if request.method == 'POST':
+        numturno = request.form['numeroturno']
+        curp = request.form['curp']
+
+        d = EntityFactory.create_entity('detallecita', None, curp, numturno, None)
+        ModelDetalleCita.delete_data(db, d)
+
+        flash('Cita eliminada exitosamente', 'success')
+        return redirect(url_for('consulta_cita'))
+    else:
+        return render_template('views/ConsultaCita.html', data={})
+
 
 @app.route('/registro_cita', methods=['POST', 'GET'])
 def registro_cita():

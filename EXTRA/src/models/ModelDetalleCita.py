@@ -1,6 +1,26 @@
 from .entities.DetalleCita import DetalleCita
 
 class ModelDetalleCita:
+    
+    
+    @classmethod
+    def get_data(db, detacita):
+        try:
+            connection = db.get_connection()
+            cursor = connection.cursor()            
+            
+            sql =  """select c.TELEFONOQR, c.CORREOQR, r.asuntotratar from realiza r join citas c 
+                        ON r.IDCITA = c.IDCITA where r.NUMTURNO = '{}' AND r.CURP = '{}';""".format(detacita.curp, detacita.numturno)
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            detalles = []
+            for row in result:
+                detalles.append(DetalleCita(row[0], row[1], row[2]))
+            return detalles
+        except Exception as ex:
+            raise Exception(ex)
+
+
 
     @classmethod
     def get_all(self, db):

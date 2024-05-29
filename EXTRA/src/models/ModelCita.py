@@ -1,7 +1,9 @@
 from .entities.Cita import Cita
 
 class ModelCita:
-
+    
+    
+    
     @classmethod
     def get_all(self, db):
         try:
