@@ -2,11 +2,17 @@
 customCSS %} {% endblock %} {% block body %}
 
 <div class="signupFrm">
-  <form action="" class="form">
+  <form action="/registro_cita" method="POST" class="form">
     <h1 class="title">Cita</h1>
-
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <div class="inputContainer">
-      <input name="qr" id="qr" type="text" class="input" placeholder="Quien Realiza" />
+      <input
+        name="quien"
+        id="qr"
+        type="text"
+        class="input"
+        placeholder="Quien Realiza"
+      />
       <label for="" class="label">Parentezco</label>
     </div>
 
@@ -49,24 +55,24 @@ customCSS %} {% endblock %} {% block body %}
       <input
         class="input"
         type="radio"
-        id="pendiente"
+        id="status"
         name="status"
         value="pendiente"
       />
-      <label for="html">Pendiente</label><br />
+      <label for="pendiente">Pendiente</label><br />
       <input
         class="input"
         type="radio"
-        id="resuelto"
+        id="status"
         name="status"
         value="resuelto"
       />
-      <label for="css">Resuleto</label><br />
+      <label for="resuelto">Resuleto</label><br />
     </div>
 
     {% endif %}
 
-    <input type="submit" class="submitBtn" value="Sign up" />
+    <input type="submit" class="submitBtn" value="Guardar" />
   </form>
 </div>
 

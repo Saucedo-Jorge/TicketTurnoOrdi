@@ -5,7 +5,8 @@ class ModelCita:
     @classmethod
     def get_all(self, db):
         try:
-            cursor = db.connection.cursor()
+            connection = db.get_connection()
+            cursor = connection.cursor()
             sql = "SELECT IDCITA, QUIENR, TELEFONOQR, CORREOQR, STATUS FROM citas"
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -19,19 +20,22 @@ class ModelCita:
     @classmethod
     def add(self, db, cita):
         try:
-            cursor = db.connection.cursor()
-            sql = """INSERT INTO citas (IDCITA, QUIENR, TELEFONOQR, CORREOQR, STATUS) 
-                     VALUES ('{}', '{}', '{}', '{}', '{}')""".format(
-                        cita.idcita, cita.quienr, cita.telefonoqr, cita.correoqr, cita.status)
+            connection = db.get_connection()
+            cursor = connection.cursor()
+            
+            sql = """INSERT INTO citas ( QUIENR, TELEFONOQR, CORREOQR, STATUS) 
+                     VALUES ( '{}', '{}', '{}', 'Pendiente' )""".format(
+                         cita.quienr, cita.telefonoqr, cita.correoqr)
             cursor.execute(sql)
-            db.connection.commit()
+            connection.commit()
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
     def delete(self, db, idcita):
         try:
-            cursor = db.connection.cursor()
+            connection = db.get_connection()
+            cursor = connection.cursor()
             sql = "DELETE FROM citas WHERE IDCITA = '{}'".format(idcita)
             cursor.execute(sql)
             db.connection.commit()
@@ -41,7 +45,8 @@ class ModelCita:
     @classmethod
     def update(self, db, cita):
         try:
-            cursor = db.connection.cursor()
+            connection = db.get_connection()
+            cursor = connection.cursor()
             sql = """UPDATE citas SET QUIENR = '{}', TELEFONOQR = '{}', CORREOQR = '{}', STATUS = '{}' 
                      WHERE IDCITA = '{}'""".format(
                         cita.quienr, cita.telefonoqr, cita.correoqr, cita.status, cita.idcita)

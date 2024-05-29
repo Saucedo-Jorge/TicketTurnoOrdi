@@ -49,6 +49,7 @@ def login():
         return render_template('auth/login.html')
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
@@ -62,21 +63,26 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
 
-@app.route('/registro_cita', methods=['POST'])
-def add_cita():
-    quienr = request.form['qr']
-    telefonoqr = request.form['phone']
-    correo = request.form['email']
-    status = request.form['status']
-    cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, status)
-    ModelCita.add(db, cita)
-    return redirect(url_for('registro_cita'))
+@app.route('/registro_cita', methods=['POST', 'GET'])
+def registro_cita():
+    if request.method == 'POST':
+        quienr = request.form['quien']
+        telefonoqr = request.form['phone']
+        correo = request.form['email']
+        
+        cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, None)
+        ModelCita.add(db, cita)
+        return redirect(url_for('registro_cita'))
+    else:
+        return render_template('views/registro_cita.html')
 
 @app.route('/municipios')
+@login_required
 def municipios():
     return render_template('views/municipios.html')
 
 @app.route('/alumnos')
+@login_required
 def alumnos():
     return render_template('views/alumnos.html')
 
