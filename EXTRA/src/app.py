@@ -86,7 +86,7 @@ def modificar_cita():
         email = request.form['email']
         asuntotratar = request.form['asuntotratar']
         status = request.form.get('status', '')
-
+        dt=ModelDetalleCita.get_data
         d = EntityFactory.create_entity('detallecita', None, curp, numturno, None)
         d.phone = phone
         d.email = email

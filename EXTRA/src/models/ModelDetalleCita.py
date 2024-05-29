@@ -3,7 +3,7 @@ from .entities.DetalleCita import DetalleCita
 class ModelDetalleCita:
     
     
-    @classmethod
+    @staticmethod
     def get_data(db, detacita):
         try:
             connection = db.get_connection()
