@@ -35,23 +35,29 @@ class ModelCita:
         try:
             connection = db.get_connection()
             cursor = connection.cursor()
-            
-            sql = """INSERT INTO citas ( QUIENR, TELEFONOQR, CORREOQR, STATUS) 
-                     VALUES ( '{}', '{}', '{}', 'Pendiente' )""".format(
-                         cita.quienr, cita.telefonoqr, cita.correoqr)
-            cursor.execute(sql)
+            if cita.status == None:
+                sql = """INSERT INTO citas ( QUIENR, TELEFONOQR, CORREOQR, STATUS) 
+                        VALUES ( '{}', '{}', '{}', 'Pendiente' )""".format(
+                            cita.quienr, cita.telefonoqr, cita.correoqr)
+                cursor.execute(sql)
+            else:
+                sql = """INSERT INTO citas ( QUIENR, TELEFONOQR, CORREOQR, STATUS) 
+                        VALUES ( '{}', '{}', '{}', '{}' )""".format(
+                            cita.quienr, cita.telefonoqr, cita.correoqr, cita.status)
+                cursor.execute(sql)
             connection.commit()
         except Exception as ex:
             raise Exception(ex)
 
     @classmethod
     def delete(self, db, idcita):
+    
         try:
             connection = db.get_connection()
             cursor = connection.cursor()
             sql = "DELETE FROM citas WHERE IDCITA = '{}'".format(idcita)
             cursor.execute(sql)
-            db.connection.commit()
+            connection.commit()
         except Exception as ex:
             raise Exception(ex)
 
@@ -64,6 +70,6 @@ class ModelCita:
                      WHERE IDCITA = '{}'""".format(
                         cita.quienr, cita.telefonoqr, cita.correoqr, cita.status, cita.idcita)
             cursor.execute(sql)
-            db.connection.commit()
+            connection.commit()
         except Exception as ex:
             raise Exception(ex)

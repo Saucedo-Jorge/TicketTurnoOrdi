@@ -70,15 +70,19 @@ def registro_cita():
         quienr = request.form['quien']
         telefonoqr = request.form['phone']
         correo = request.form['email']
-        asunto = request.form['asuntotratar']
-        curp= request.form['curp']
+        statu= request.form['status']if 'status' in request.form and request.form['status'] else None
         
-        cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, None)
+        
+        print('ESTO IMPRIME O MANDA EL FORMULARIO CUANDO NO SE SELECCIONA STATUS:  ----->')
+        print(statu)
+        cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, statu)
         ModelCita.add(db, cita)
-
+    
+        curp= request.form['curp']
+        asunto= request.form['asuntotratar']
         idcita= ModelCita.get_id(db)
         numcita=  ModelDetalleCita.numturn(db, curp)
-        detalle = EntityFactory.create_entity('detallecita', idcita, curp, numcita, asunto)
+        detalle = EntityFactory.create_entity('detallecita', idcita[0], curp, numcita, asunto)
         ModelDetalleCita.add(db, detalle)
         
         return redirect(url_for('registro_cita'))
@@ -94,6 +98,10 @@ def municipios():
 @login_required
 def alumnos():
     return render_template('views/alumnos.html')
+
+
+
+
 
 @app.route('/about')
 def about():

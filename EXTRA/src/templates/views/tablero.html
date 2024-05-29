@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Tablero de Solicitudes</h1>
+
+<div>
+  <canvas id="solicitudesChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const solicitudesChart = new Chart(document.getElementById('solicitudesChart'), {
+      type: 'bar',
+      data: {
+          labels: {{ municipios|tojson|safe }},
+          datasets: [
+              {
+                  label: 'Resueltas',
+                  data: {{ resueltos|tojson|safe }},
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              },
+              {
+                  label: 'Pendientes',
+                  data: {{ pendientes|tojson|safe }},
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  borderWidth: 1
+              }
+          ]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+</script>
+{% endblock %}
