@@ -66,7 +66,31 @@ def protected():
 
 @app.route('/consulta_cita')
 def consulta_cita():
-    return render_template('views/ConsultaCita.html')
+    if request.method == 'POST':
+        numcita = request.form['numturno']
+        telefonoqr = request.form['phone']
+        correo = request.form['email']
+        statu= request.form['status']if 'status' in request.form and request.form['status'] else None
+        
+        
+        print('ESTO IMPRIME O MANDA EL FORMULARIO CUANDO NO SE SELECCIONA STATUS:  ----->')
+        print(statu)
+        cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, statu)
+        ModelCita.add(db, cita)
+    
+        curp= request.form['curp']
+        asunto= request.form['asuntotratar']
+        idcita= ModelCita.get_id(db)
+        numcita=  ModelDetalleCita.numturn(db, curp)
+        detalle = EntityFactory.create_entity('detallecita', idcita[0], curp, numcita, asunto)
+        ModelDetalleCita.add(db, detalle)
+        
+        flash("Guarde su numero de Turno")
+        flash(f"Turno Asignato: {numcita}")
+        
+        return redirect(url_for('registro_cita'))
+    else:
+        return render_template('views/registro_cita.html')
 
 @app.route('/registro_cita', methods=['POST', 'GET'])
 def registro_cita():
