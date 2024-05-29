@@ -12,6 +12,7 @@ from models.ModelUser import ModelUser
 from models.ModelCita import ModelCita
 from models.ModelAlumno import ModelAlumno
 from models.ModelMunicipio import ModelMunicipio
+from models.ModelDetalleCita import ModelDetalleCita
 
 # Entities:
 from models.entities.User import User
@@ -69,9 +70,17 @@ def registro_cita():
         quienr = request.form['quien']
         telefonoqr = request.form['phone']
         correo = request.form['email']
+        asunto = request.form['asuntotratar']
+        curp= request.form['curp']
         
         cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, None)
         ModelCita.add(db, cita)
+
+        idcita= ModelCita.get_id(db)
+        numcita=  ModelDetalleCita.numturn(db, curp)
+        detalle = EntityFactory.create_entity('detallecita', idcita, curp, numcita, asunto)
+        ModelDetalleCita.add(db, detalle)
+        
         return redirect(url_for('registro_cita'))
     else:
         return render_template('views/registro_cita.html')

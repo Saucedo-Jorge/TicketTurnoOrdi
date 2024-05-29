@@ -16,6 +16,18 @@ class ModelCita:
             return citas
         except Exception as ex:
             raise Exception(ex)
+        
+    @classmethod
+    def get_id(self, db):
+        try:
+            connection = db.get_connection()
+            cursor = connection.cursor()
+            sql = "select * from citas order by IDCITA desc limit 1;"
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            return result
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def add(self, db, cita):
