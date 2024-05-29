@@ -22,9 +22,10 @@ class ModelCita:
         try:
             connection = db.get_connection()
             cursor = connection.cursor()
-            sql = "select * from citas order by IDCITA desc limit 1;"
+            sql = "select idcita from citas order by IDCITA desc limit 1;"
             cursor.execute(sql)
-            result = cursor.fetchall()
+            result = cursor.fetchone()
+            print(result)
             return result
         except Exception as ex:
             raise Exception(ex)

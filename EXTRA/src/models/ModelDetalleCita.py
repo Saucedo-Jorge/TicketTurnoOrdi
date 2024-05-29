@@ -76,17 +76,12 @@ WHERE
 GROUP BY 
     m.NOMBREMUNICIPIO;""".format(muni)
             cursor.execute(sql)
-            result = cursor.fetchall()
-            detalles = []
-            for row in result:
-                detalles.append((row[0], row[1]))
-            deta = int(detalles[0][1])
-            print(deta)
-            deta+=1
-            print(deta)
-            deta =str(deta)
-            print(deta)
-            return deta
+            result = cursor.fetchone()
+            print(result[1])
+            
+            
+            
+            return result[1]
         
         except Exception as ex:
             raise Exception(ex)
