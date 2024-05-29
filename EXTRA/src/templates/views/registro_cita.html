@@ -3,7 +3,7 @@ block customCSS %} {% endblock %} {% block body %}
 
 <div class="signupFrm">
   <form action="/registro_cita" method="POST" class="form">
-    <h1 class="title">Cita</h1>
+    <h1 class="title">Registro Cita</h1>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <div class="inputContainer">
       <input
@@ -83,7 +83,19 @@ block customCSS %} {% endblock %} {% block body %}
       <label for="Resuelto">Resuleto</label><br />
     </div>
 
-    {% endif %}
+    {% endif %} {% with messages = get_flashed_messages() %} {% if messages %}
+    <br />
+    {% for message in messages %}
+    <div class="alert alert-primary alert-dismissible" role="alert">
+      <strong>{{ message }}</strong>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %} {% endwith %}
 
     <input type="submit" class="submitBtn" value="Guardar" />
   </form>
@@ -94,8 +106,8 @@ block customCSS %} {% endblock %} {% block body %}
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin: 50px;
+    height: 50vh;
+    align-items: center;
   }
 
   .form {
@@ -104,6 +116,7 @@ block customCSS %} {% endblock %} {% block body %}
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background: #f1f1f1;
+    margin-top: 50px;
   }
 
   .title {

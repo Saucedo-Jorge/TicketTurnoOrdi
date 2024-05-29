@@ -89,6 +89,9 @@ def registro_cita():
         detalle = EntityFactory.create_entity('detallecita', idcita[0], curp, numcita, asunto)
         ModelDetalleCita.add(db, detalle)
         
+        flash("Guarde su numero de Turno")
+        flash(f"Turno Asignato: {numcita}")
+        
         return redirect(url_for('registro_cita'))
     else:
         return render_template('views/registro_cita.html')

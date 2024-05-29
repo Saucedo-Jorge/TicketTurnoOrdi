@@ -1,162 +1,163 @@
-{% extends './base.html' %} {% block title %}Consulta de Citas{% endblock %} {%
-block customCSS %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='css/consulta.css') }}"
-/>
-{% endblock %} {% block body %}
+{% extends './base.html' %} 
+{% block title %}Registro de Citas{% endblock %} 
+{% block customCSS %} 
+{% endblock %} 
+{% block body %}
 
 <div class="signupFrm">
   <form action="/registro_cita" method="POST" class="form">
-    <h1 class="title">Cita</h1>
+    <h1 class="title">Consulta Cita</h1>
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
     <div class="inputContainer">
-      <input
-        name="quien"
-        id="qr"
-        type="text"
-        class="input"
-        placeholder="Quien Realiza"
-      />
-      <label for="" class="label">Parentezco</label>
+      <input name="numeroturno" id="numeroturno" type="number" class="input" placeholder="Ingrese Numero de Turno" required />
+      <label for="" class="label">Numero de Turno</label>
     </div>
 
     <div class="inputContainer">
-      <input
-        class="input"
-        type="text"
-        id="curp"
-        name="curp"
-        required
-        pattern="^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[HM]{1}(AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$"
-        title="Por favor, ingrese una CURP válida."
-      />
+      <input class="input" type="text" id="curp" name="curp" required pattern="^[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[HM]{1}(AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$" title="Por favor, ingrese una CURP válida." />
       <label for="" class="label">CURP Alumno</label>
     </div>
 
     <div class="inputContainer">
-      <input
-        class="input"
-        type="tel"
-        id="phone"
-        name="phone"
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-        placeholder="123-456-7890"
-      />
+      <input class="input" type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
       <label for="" class="label">Telefono</label>
     </div>
 
     <div class="inputContainer">
-      <input
-        class="input"
-        type="email"
-        id="email"
-        name="email"
-        placeholder="@"
-      />
+      <input class="input" type="email" id="email" name="email" />
       <label for="" class="label">Correo</label>
     </div>
 
     <div class="inputContainer">
-      <input
-        class="input"
-        type="text"
-        id="asuntotratar"
-        name="asuntotratar"
-        placeholder="Asunto a tratar"
-      />
+      <input class="input" type="text" id="asuntotratar" name="asuntotratar" />
       <label for="" class="label">Asunto</label>
     </div>
 
     {% if current_user.is_authenticated %}
     <div class="inputContainer">
-      <input
-        class="input"
-        type="radio"
-        id="status"
-        name="status"
-        value="Pendiente"
-      />
+      <input class="input" type="radio" id="status" name="status" value="Pendiente" />
       <label for="Pendiente">Pendiente</label><br />
-      <input
-        class="input"
-        type="radio"
-        id="status"
-        name="status"
-        value="Resuelto"
-      />
-      <label for="Resuelto">Resuleto</label><br />
+      <input class="input" type="radio" id="status" name="status" value="Resuelto" />
+      <label for="Resuelto">Resuelto</label><br />
     </div>
-
     {% endif %}
 
-    <input type="submit" class="submitBtn" value="Guardar" />
+    {% with messages = get_flashed_messages() %} 
+    {% if messages %}
+    <br />
+    {% for message in messages %}
+    <div class="alert alert-primary alert-dismissible" role="alert">
+      <strong>{{ message }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %} 
+    {% endif %} 
+    {% endwith %}
+
+    <div class="buttonContainer">
+      
+      <button type="button" class="submitBtn" onclick="consultarCita()">Consultar</button>
+      <button type="button" class="submitBtn" onclick="modificarCita()">Modificar</button>
+      <button type="button" class="submitBtn" onclick="eliminarCita()">Eliminar</button>
+    </div>
   </form>
 </div>
 
+<script>
+  function consultarCita() {
+    document.querySelector('form').action = '/consultar_cita';
+    document.querySelector('form').submit();
+  }
+
+  function modificarCita() {
+    document.querySelector('form').action = '/modificar_cita';
+    document.querySelector('form').submit();
+  }
+
+  function eliminarCita() {
+    document.querySelector('form').action = '/eliminar_cita';
+    document.querySelector('form').submit();
+  }
+</script>
+
 <style>
-  .signupFrm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin: 50px;
-  }
-
-  .form {
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background: #f1f1f1;
-  }
-
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .inputContainer {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-  }
-
-  .label {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #999;
-    pointer-events: none;
-    transition: 0.5s;
-  }
-
-  .input:focus + .label,
-  .input:valid + .label {
-    top: -5px;
-    left: 10px;
-    transform: translateY(0);
-    background: #fff;
-    padding: 0 5px;
-    font-size: 12px;
-  }
-
-  .submitBtn {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #19c617;
-    color: #388b12;
-    cursor: pointer;
-  }
-</style>
+    
+        .signupFrm {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+      
+        .form {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 400px;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          background: #f1f1f1;
+        }
+      
+        .title {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+      
+        .inputContainer {
+          position: relative;
+          margin-bottom: 20px;
+        }
+      
+        .input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          outline: none;
+        }
+      
+        .label {
+          position: absolute;
+          top: 50%;
+          left: 10px;
+          transform: translateY(-50%);
+          color: #999;
+          pointer-events: none;
+          transition: 0.5s;
+        }
+      
+        .input:focus + .label,
+        .input:valid + .label {
+          top: -5px;
+          left: 10px;
+          transform: translateY(0);
+          background: #fff;
+          padding: 0 5px;
+          font-size: 12px;
+        }
+      
+        .submitBtn {
+          width: 100%;
+          padding: 10px;
+          border: none;
+          border-radius: 5px;
+          background: #19c617;
+          color: #388b12;
+          cursor: pointer;
+          margin-top: 10px;
+        }
+      
+        .buttonContainer {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+        }
+      
+        .buttonContainer button {
+          flex: 1;
+        }
+      </style>
 {% endblock %}
