@@ -64,6 +64,10 @@ def home():
 def protected():
     return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
 
+@app.route('/consulta_cita')
+def consulta_cita():
+    return render_template('views/ConsultaCita.html')
+
 @app.route('/registro_cita', methods=['POST', 'GET'])
 def registro_cita():
     if request.method == 'POST':
