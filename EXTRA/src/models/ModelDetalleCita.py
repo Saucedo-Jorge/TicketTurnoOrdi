@@ -4,19 +4,32 @@ class ModelDetalleCita:
     
     
     @staticmethod
-    def get_data(db, detacita):
+    def get_data(db, datacita):
         try:
             connection = db.get_connection()
             cursor = connection.cursor()            
             
             sql =  """select c.TELEFONOQR, c.CORREOQR, r.asuntotratar from realiza r join citas c 
-                        ON r.IDCITA = c.IDCITA where r.NUMTURNO = '{}' AND r.CURP = '{}';""".format(detacita.curp, detacita.numturno)
+                        ON r.IDCITA = c.IDCITA where r.NUMTURNO = '{}' AND r.CURP = '{}';""".format(datacita.curp, datacita.numturno)
             cursor.execute(sql)
-            result = cursor.fetchall()
-            detalles = []
-            for row in result:
-                detalles.append(DetalleCita(row[0], row[1], row[2]))
-            return detalles
+            result = cursor.fetchone()
+            print('este es print del model',result)
+                
+            return result
+        except Exception as ex:
+            raise Exception(ex)
+        
+        
+    @classmethod
+    def get_id(self, db, det):
+        try:
+            connection = db.get_connection()
+            cursor = connection.cursor()
+            sql = "select idcita from realiza where curp='{} AND NumTurn='{};".format(det.curp, det.numturno)
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            print(result)
+            return result
         except Exception as ex:
             raise Exception(ex)
 

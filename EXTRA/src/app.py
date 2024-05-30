@@ -63,42 +63,62 @@ def home():
 @login_required
 def protected():
     return "<h1>Esta es una vista protegida, solo para usuarios autenticados.</h1>"
+
+
 @app.route('/consulta_cita', methods=['POST', 'GET'])
 def consulta_cita():
-    if request.method == 'POST':
-        numturno = request.form['numeroturno']
-        curp = request.form['curp']
-
-        d = EntityFactory.create_entity('detallecita', None, curp, numturno, None)
-        data = ModelDetalleCita.get_data(db, d)
-        
-        # Pasar los datos al template
-        return render_template('views/ConsultaCita.html', data=data)
-    else:
-        return render_template('views/ConsultaCita.html', data={})
-    
-@app.route('/modificar_cita', methods=['POST'])
-def modificar_cita():
     if request.method == 'POST':
         numturno = request.form['numeroturno']
         curp = request.form['curp']
         phone = request.form['phone']
         email = request.form['email']
         asuntotratar = request.form['asuntotratar']
-        status = request.form.get('status', '')
-        dt=ModelDetalleCita.get_data
-        d = EntityFactory.create_entity('detallecita', None, curp, numturno, None)
-        d.phone = phone
-        d.email = email
-        d.asuntotratar = asuntotratar
-        d.status = status
+        statu= request.form['status']if 'status' in request.form and request.form['status'] else None
+        connection = db.get_connection()
+        cursor = connection.cursor()            
+            
+        sql =  """select c.TELEFONOQR, c.CORREOQR, r.asuntotratar, c.status from realiza r join citas c 
+                        ON r.IDCITA = c.IDCITA where r.NUMTURNO = '{}' AND r.CURP = '{}';""".format( numturno,curp)
+        cursor.execute(sql)
+        data = cursor.fetchone()
+        cu=curp
+        nt=numturno
+        num=data[0]
+        correo=data[1]
+        ast=data[2]
+        sta=data[3]
+    
+        # Pasar los datos al template
+        return render_template('views/ConsultaCita.html', cu=cu ,nt=nt, ast=ast, num=num, correo=correo)
 
-        ModelDetalleCita.update_data(db, d)
+    else:
         
-        flash('Cita modificada exitosamente', 'success')
+        return render_template('views/ConsultaCita.html', data={})
+    
+@app.route('/modificar_cita', methods=['POST'])
+def modificar_cita():
+    if request.method == 'POST':
+        
+        curp = request.form['curp']
+        phone = request.form['phone']
+        email = request.form['email']
+        asuntotratar = request.form['asuntotratar']
+        statu= request.form['status']if 'status' in request.form and request.form['status'] else None
+
+        connection = db.get_connection()
+        cursor = connection.cursor()
+        sql = "SELECT IDCITA, QUIENR, TELEFONOQR, CORREOQR, STATUS FROM citas"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        citas = []
+        for row in result:
+            citas.append((row[0], row[1], row[2], row[3], row[4]))
+        
+        
+        
         return redirect(url_for('consulta_cita'))
     else:
-        return render_template('views/ConsultaCita.html', data={})
+        return render_template('views/ConsultaCita.html')
 
 @app.route('/eliminar_cita', methods=['POST'])
 def eliminar_cita():
@@ -124,8 +144,7 @@ def registro_cita():
         statu= request.form['status']if 'status' in request.form and request.form['status'] else None
         
         
-        print('ESTO IMPRIME O MANDA EL FORMULARIO CUANDO NO SE SELECCIONA STATUS:  ----->')
-        print(statu)
+    
         cita = EntityFactory.create_entity('cita', None, quienr, telefonoqr, correo, statu)
         ModelCita.add(db, cita)
     

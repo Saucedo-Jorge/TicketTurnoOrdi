@@ -7,4 +7,4 @@ class DetalleCita:
         
     
     def __repr__(self):
-        return f"DetalleCita(IdCita={self.idcita}, CURP={self.curp}, NumTurno={self.numturno}, AsuntoTratar={self.asuntotratar})"
+        return f"DetalleCita(idcita={self.idcita}, curp={self.curp}, numturno={self.numturno}, asuntotratar={self.asuntotratar})"
